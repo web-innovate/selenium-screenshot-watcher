@@ -1,0 +1,7 @@
+/target/
+.classpath
+.settings/
+diffs
+base
+tmp
+.project

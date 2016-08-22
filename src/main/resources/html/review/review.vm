@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">#include("html/review/styles/style.css")</style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js"></script>
+</head>
+<body class="body">
+<div id="dialog-confirm"></div>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <td>
+                <div class="header">
+                    <strong>Base Image</strong>
+                </div>
+            </td>
+            <td>
+                <div class="header">
+                    <strong>New Image</strong>
+                </div>
+            </td>
+            <td>
+                <div class="header">
+                    <strong>Image with differences</strong>
+                </div>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <div id="one" class="thumbnail">
+                    <a href="$urlLinkBase" data-lightbox="image-1" data-title="Base Image"><img src="$urlLinkBase"/></a>
+                </div>
+            </td>
+            <td>
+                <div id="two" class="thumbnail">
+                    <a href="$urlLinkTmp" data-lightbox="image-1" data-title="New Image"><img src="$urlLinkTmp"/></a>
+                </div>
+            </td>
+            <td>
+                <div id="three" class="thumbnail">
+                    <a href="$urlLinkDiff" data-lightbox="image-1" data-title="Image with differences"><img src="$urlLinkDiff"/></a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <div class="header">
+                  #if($screenshotsHaveBeenReviewed)
+                    <a href="#" class="reviewed" disabled>$reviewMessage</a>
+                  #else
+                    <a href="#" class="asExpected">$reviewMessage</a>
+                  #end
+                </div>
+            </td>
+            <td>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>#include("html/review/scripts/scrolling.js")</script>
+<script>#include("html/review/scripts/modalDialog.js")</script>
+<script>#include("html/review/scripts/buttonActions.js")</script>
+</body>
+</html>

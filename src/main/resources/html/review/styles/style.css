@@ -1,0 +1,45 @@
+.body {
+    min-width: 1650px;
+    min-height: 700px;
+}
+
+.thumbnail {
+    border-width: 0;
+    padding: 10px;
+    overflow: scroll;
+    width: 550px;
+    height: 650px;
+}
+
+.header {
+    text-align: center;
+    font-size: 26px;
+}
+
+.asExpected {
+    background-color: #14aa32;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid #000000;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 16px 30px;
+    text-decoration: none;
+}
+
+.reviewed {
+    background-color: #d21e28;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid #000000;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 16px 30px;
+    text-decoration: none;
+}
