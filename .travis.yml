@@ -24,3 +24,6 @@ before_install:
   - mvn clean -q
 install:
 - mvn install -Dgpg.skip=true -DskipTests=true -q
+notifications:
+  webhooks:
+    - https://web-innovate-selenium-screenshot-watcher.getbadges.io/api/app/webhook/e988a5df-bba6-4cb5-9e40-f4e1c4694c86
