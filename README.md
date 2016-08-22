@@ -1,4 +1,4 @@
-# selenium-screenshot-watcher
+# selenium-screenshot-watcher [![Build Status](https://travis-ci.org/web-innovate/selenium-screenshot-watcher.svg?branch=master)](https://travis-ci.org/web-innovate/selenium-screenshot-watcher)
 Allows you to take a screenshot of the page on which your automated tests are on, that can be compared later on.
 
 How it works ?
