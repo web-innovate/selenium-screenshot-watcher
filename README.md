@@ -1,5 +1,7 @@
-# selenium-screenshot-watcher [![Build Status](https://travis-ci.org/web-innovate/selenium-screenshot-watcher.svg?branch=master)](https://travis-ci.org/web-innovate/selenium-screenshot-watcher)
+# selenium-screenshot-watcher [![Build Status](https://travis-ci.org/web-innovate/selenium-screenshot-watcher.svg?branch=master)](https://travis-ci.org/web-innovate/selenium-screenshot-watcher) [![donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NCEP5PRTZXMMA)
+
 Allows you to take a screenshot of the page on which your automated tests are on, that can be compared later on.
+
 
 How it works ?
 * `"tell to the tool when to take a screenshot"` along with some params user to store the image & later to identify it
