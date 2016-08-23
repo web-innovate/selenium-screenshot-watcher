@@ -1,1 +1,1 @@
-"web: mvn exec:java" 
+web: mvn exec:java
