@@ -1,5 +1,7 @@
 # selenium-screenshot-watcher [![Build Status](https://travis-ci.org/web-innovate/selenium-screenshot-watcher.svg?branch=master)](https://travis-ci.org/web-innovate/selenium-screenshot-watcher) [![donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NCEP5PRTZXMMA)
 
+[![Join the chat at https://gitter.im/web-innovate/selenium-screenshot-watcher](https://badges.gitter.im/web-innovate/selenium-screenshot-watcher.svg)](https://gitter.im/web-innovate/selenium-screenshot-watcher?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Allows you to take a screenshot of the page on which your automated tests are on, that can be compared later on.
 
 
