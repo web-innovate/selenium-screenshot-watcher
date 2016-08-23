@@ -21,7 +21,7 @@ public class MyResourceTest {
     public void setUp() {
         server = Main.startServer();
         Client client = ClientBuilder.newClient();
-        target = client.target(Main.BASE_URI);
+        target = client.target(Main.getBaseUri());
     }
 
     @After

@@ -38,9 +38,9 @@ import com.mongodb.gridfs.GridFSDBFile;
 @Path("review/{baseScreenshotId}/{newScreenshotId}")
 public class ReviewScreenshots {
 
-    private final String IMAGE_ENDPOINT = String.format("%simage/photo/", Main.BASE_URI);
+    private final String IMAGE_ENDPOINT = String.format("%simage/photo/", Main.getBaseUri());
 
-    private final String IMAGE_DIFF_ENDPOINT = String.format("%simage/diff_photos/", Main.BASE_URI);
+    private final String IMAGE_DIFF_ENDPOINT = String.format("%simage/diff_photos/", Main.getBaseUri());
 
     private final String IMAGE_PERFECT_MATCH =
         "http://cdn2.hubspot.net/hub/137629/file-2411625209-jpg/JobSeeker_Blog/Perfect_Match_Puzzle_Piece.jpg";

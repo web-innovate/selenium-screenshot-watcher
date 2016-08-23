@@ -95,13 +95,14 @@ public class CompareScreenshots {
 
         if (baseImageFound) {
             reviewLink =
-                Main.BASE_URI + "review/" + baseScreenshot.getId().toString() + "/" + newScreenshot.getId().toString();
+                Main.getBaseUri() + "review/" + baseScreenshot.getId().toString() + "/"
+                    + newScreenshot.getId().toString();
             processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile);
             compareResponse =
                 new CompareScreenshotsResponse(processedResponse.getStatus(), reviewLink);
         } else {
             reviewLink =
-                Main.BASE_URI + "review-single/" + newScreenshot.getId().toString();
+                Main.getBaseUri() + "review-single/" + newScreenshot.getId().toString();
             compareResponse = new CompareScreenshotsResponse(false, reviewLink);
         }
 

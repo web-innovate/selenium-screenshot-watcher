@@ -36,7 +36,7 @@ import com.mongodb.DBObject;
 @Path("review-single/{newScreenshotId}")
 public class ReviewScreenshot {
 
-    private final String IMAGE_ENDPOINT = String.format("%simage/photo/", Main.BASE_URI);
+    private final String IMAGE_ENDPOINT = String.format("%simage/photo/", Main.getBaseUri());
 
     private Logger logger = LogManager.getLogger(ReviewScreenshot.class);
 

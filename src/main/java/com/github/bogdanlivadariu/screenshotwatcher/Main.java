@@ -24,7 +24,10 @@ public class Main {
         System.getenv("PORT") != null ? System.getenv("PORT") : String.valueOf(CONFIG.getPortPreference());
 
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = CONFIG.getHostAddress() + ":" + port + "/";
+    private static final String BASE_URI = CONFIG.getHostAddress() + ":" + port + "/";
+
+    // Used explicit for heroku
+    private static final String PRETTY_BASE_URI = "https://selenium-screenshot-watcher.herokuapp.com/";
 
     public static HttpServer SERVER = null;
 
@@ -53,5 +56,13 @@ public class Main {
         new DBConnectors();
         logger.info(String.format("Jersey app started with WADL available at %sapplication.wadl", BASE_URI));
         logger.info(String.format("Send a empty POST request to %sstop in order to stop the server", BASE_URI));
+    }
+
+    public static String getBaseUri() {
+        if (System.getenv("PORT") != null) {
+            return PRETTY_BASE_URI;
+        } else {
+            return BASE_URI;
+        }
     }
 }
