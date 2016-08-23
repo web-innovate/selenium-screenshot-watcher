@@ -9,6 +9,15 @@
             "mongoDBPassword": "test",
             "mongoDB": "test_reports"
         },
+        "heroku": {
+            "hostAddress": "http://selenium-screenshot-watcher.herokuapp.com",
+            "portPreference": 80,
+            "mongoDBHost": "ds039311.mongolab.com",
+            "mongoDBPort": 39311,
+            "mongoDBUserName": "test",
+            "mongoDBPassword": "test",
+            "mongoDB": "test_reports"
+        },
         "stage-env": {
             "hostAddress": "http://192.168.1.1",
             "portPreference": 9191,
