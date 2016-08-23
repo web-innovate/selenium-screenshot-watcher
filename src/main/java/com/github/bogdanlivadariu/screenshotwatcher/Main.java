@@ -19,8 +19,12 @@ import com.github.bogdanlivadariu.screenshotwatcher.models.config.ScreenshotWatc
 public class Main {
     private static final ScreenshotWatcherConfigurationModel CONFIG = ScreenshotWatcherConfiguration.getConfig();
 
+    // Special magic for heroku
+    private static String port =
+        System.getenv("PORT") != null ? System.getenv("PORT") : String.valueOf(CONFIG.getPortPreference());
+
     // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = CONFIG.getHostAddress() + ":" + CONFIG.getPortPreference() + "/";
+    public static final String BASE_URI = CONFIG.getHostAddress() + ":" + port + "/";
 
     public static HttpServer SERVER = null;
 
