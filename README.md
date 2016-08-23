@@ -12,13 +12,13 @@ Example:
 public class ScreenTest {
     @Test
     public void blinkTest() {
-        // This is where the tool runs
-        String baseURL = "http://localhost:9090/";
+        // Provide the URL where the tool runs
+        // In this example you could rely on the heroku instance
+        String baseURL = "http://selenium-screenshot-watcher.herokuapp.com/";
         WebDriver driver = new ChromeDriver();
         driver.get("http://www.google.ro");
 
-        // These are the parameters that we send to the tool, to store & restore images
-        String testName = "pixel-2-pixel-test-1";
+        String testName = "heroku sample test - 1";
         String testBrowser = "chrome";
         String description = "running on localhost";
 
