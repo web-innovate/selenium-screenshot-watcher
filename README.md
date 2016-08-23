@@ -39,5 +39,7 @@ public class ScreenTest {
 }
 ```
 
+Here is an example project that uses this tool: https://github.com/web-innovate/selenium-screenshot-watcher-sample
+
 #Where are all the images stored ?
 * In a mongoDB instance, either on cloud or locally
