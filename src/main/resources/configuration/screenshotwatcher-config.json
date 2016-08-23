@@ -10,8 +10,8 @@
             "mongoDB": "test_reports"
         },
         "heroku": {
-            "hostAddress": "http://selenium-screenshot-watcher.herokuapp.com",
-            "portPreference": 80,
+            "hostAddress": "http://0.0.0.0",
+            "portPreference": 8080,
             "mongoDBHost": "ds039311.mongolab.com",
             "mongoDBPort": 39311,
             "mongoDBUserName": "test",
