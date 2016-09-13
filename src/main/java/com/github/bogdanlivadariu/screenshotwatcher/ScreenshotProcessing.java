@@ -12,6 +12,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -27,7 +28,8 @@ import com.mongodb.gridfs.GridFSInputFile;
 
 public class ScreenshotProcessing {
 
-    public static ScreenshotProcessingResponse processScreenshots(File baseScreenshot, File newScreenshot)
+    public static ScreenshotProcessingResponse processScreenshots(File baseScreenshot, File newScreenshot,
+        List<Rectangle> ignoreZones)
         throws IOException {
         BufferedImage bases = ImageIO.read(baseScreenshot);
         // ArrayList<Rectangle> zone = new ArrayList<>();
@@ -40,14 +42,15 @@ public class ScreenshotProcessing {
         // use this if you want to process screenshots and ignore some areas
         ArrayList<Rectangle> ignoreAreas = new ArrayList<>();
         ignoreAreas.add(IgnoreAreas.FIXED_AREA);
-        ScreenshotDiffResponse diffResponse = getDifferences(compare, bases, ignoreAreas);
+        ScreenshotDiffResponse diffResponse = getDifferences(compare, bases, ignoreZones);
 
         // ScreenshotDiffResponse diffResponse = getDifferences(compare, bases);
         ImageIO.write(diffResponse.getBufferedImage(), "PNG", diffFile);
         return new ScreenshotProcessingResponse(diffResponse.getStatus(), diffFile);
     }
 
-    public static ProcessedScreenshots processScreenshots(String baseScreenshotId, String newScreenshotId)
+    public static ProcessedScreenshots processScreenshots(String baseScreenshotId, String newScreenshotId,
+        List<Rectangle> ignoreZones)
         throws IOException {
         String idOfTheDiffImage = "";
         String diffImageFileName = String.format("%s|%s|%s", baseScreenshotId, newScreenshotId, "-differences");
@@ -85,7 +88,8 @@ public class ScreenshotProcessing {
             gfsBaseFile.writeTo(baseFile);
             gfsTmpFile.writeTo(tmpFile);
 
-            ScreenshotProcessingResponse processResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile);
+            ScreenshotProcessingResponse processResponse =
+                ScreenshotProcessing.processScreenshots(baseFile, tmpFile, ignoreZones);
             // persist the diff file in the DB
             GridFSInputFile fsDiffFile = GFS_DIFF_PHOTOS.createFile(processResponse.getFile());
             fsDiffFile.setFilename(diffImageFileName);
@@ -116,7 +120,7 @@ public class ScreenshotProcessing {
     }
 
     private static ScreenshotDiffResponse getDifferences(BufferedImage toCompare, BufferedImage baseImage,
-        ArrayList<Rectangle> ignoreZones) {
+        List<Rectangle> ignoreZones) {
         System.out.println(String.format("%s, %s", toCompare, baseImage));
         toCompare.getWidth();
         toCompare.getHeight();

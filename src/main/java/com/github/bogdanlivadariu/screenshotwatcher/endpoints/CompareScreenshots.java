@@ -56,6 +56,7 @@ public class CompareScreenshots {
 
         boolean baseImageFound = false;
         CompareScreenshotRequest itemToCompare = gson.fromJson(jsonReq, CompareScreenshotRequest.class);
+
         DBObject base = null;
         ObjectId baseImageObjectId = null;
         GridFSDBFile baseScreenshot = null;
@@ -97,7 +98,7 @@ public class CompareScreenshots {
             reviewLink =
                 Main.getBaseUri() + "review/" + baseScreenshot.getId().toString() + "/"
                     + newScreenshot.getId().toString();
-            processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile);
+            processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile, itemToCompare.ignoreZones);
             compareResponse =
                 new CompareScreenshotsResponse(processedResponse.getStatus(), reviewLink);
         } else {

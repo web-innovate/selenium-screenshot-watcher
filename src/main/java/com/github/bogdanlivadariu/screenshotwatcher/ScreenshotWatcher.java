@@ -1,6 +1,8 @@
 package com.github.bogdanlivadariu.screenshotwatcher;
 
+import java.awt.Rectangle;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -50,12 +52,24 @@ public class ScreenshotWatcher {
         return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
     }
 
+    public BaseScreenshotModel blink(String testName, String testBrowser, String description,
+        List<Rectangle> ignoreZones) {
+        // Dimension oldResolution = driver.manage().window().getSize();
+        // System.out.println(oldResolution.toString());
+        // driver.manage().window().setSize(new Dimension(1680, 1050));
+        byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        String imageEncoded = Base64Utils.encodeToString(screenshot, false);
+        // driver.manage().window().setSize(oldResolution);
+        UploadScreenshotRequest uploadRequest =
+            new UploadScreenshotRequest(testName, testBrowser, description, imageEncoded, ignoreZones);
+        return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
+    }
+
     public BaseScreenshotModel blink(String base64EncodedImage, String testName, String testBrowser,
         String description) {
         UploadScreenshotRequest uploadRequest =
             new UploadScreenshotRequest(testName, testBrowser, description, base64EncodedImage);
         return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
-
     }
 
     public CompareScreenshotsResponse compare(BaseScreenshotModel objectForCompare) {
