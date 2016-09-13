@@ -50,6 +50,14 @@ public class ScreenshotWatcher {
         return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
     }
 
+    public BaseScreenshotModel blink(String base64EncodedImage, String testName, String testBrowser,
+        String description) {
+        UploadScreenshotRequest uploadRequest =
+            new UploadScreenshotRequest(testName, testBrowser, description, base64EncodedImage);
+        return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
+
+    }
+
     public CompareScreenshotsResponse compare(BaseScreenshotModel objectForCompare) {
         CompareScreenshotRequest compareRequest = new CompareScreenshotRequest(objectForCompare);
         return new Gson().fromJson(
