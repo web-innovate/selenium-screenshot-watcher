@@ -11,18 +11,22 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import org.bson.types.ObjectId;
 
+import com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors;
 import com.github.bogdanlivadariu.screenshotwatcher.models.ProcessedScreenshots;
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.ScreenshotDiffResponse;
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.ScreenshotProcessingResponse;
-import com.github.bogdanlivadariu.screenshotwatcher.util.IgnoreAreas;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
@@ -32,16 +36,10 @@ public class ScreenshotProcessing {
         List<Rectangle> ignoreZones)
         throws IOException {
         BufferedImage bases = ImageIO.read(baseScreenshot);
-        // ArrayList<Rectangle> zone = new ArrayList<>();
-        // zone.add(new Rectangle(135, 575, 1500, 100));
 
         BufferedImage compare = ImageIO.read(newScreenshot);
         File diffFile = new File("diffs");
 
-        // TODO implement a different way pass difference areas, maybe pass then directly from the test :)
-        // use this if you want to process screenshots and ignore some areas
-        ArrayList<Rectangle> ignoreAreas = new ArrayList<>();
-        ignoreAreas.add(IgnoreAreas.FIXED_AREA);
         ScreenshotDiffResponse diffResponse = getDifferences(compare, bases, ignoreZones);
 
         // ScreenshotDiffResponse diffResponse = getDifferences(compare, bases);
@@ -49,8 +47,8 @@ public class ScreenshotProcessing {
         return new ScreenshotProcessingResponse(diffResponse.getStatus(), diffFile);
     }
 
-    public static ProcessedScreenshots processScreenshots(String baseScreenshotId, String newScreenshotId,
-        List<Rectangle> ignoreZones)
+    @SuppressWarnings("serial")
+    public static ProcessedScreenshots processScreenshots(String baseScreenshotId, String newScreenshotId)
         throws IOException {
         String idOfTheDiffImage = "";
         String diffImageFileName = String.format("%s|%s|%s", baseScreenshotId, newScreenshotId, "-differences");
@@ -73,6 +71,17 @@ public class ScreenshotProcessing {
 
             BasicDBObject tmpQuery = new BasicDBObject();
             tmpQuery.put("_id", new ObjectId(newScreenshotId));
+
+            BasicDBObject tmpIgnoredZones = new BasicDBObject();
+            tmpIgnoredZones.put("imageId", new ObjectId(newScreenshotId));
+            Iterator<DBObject> its = DBConnectors.TMP_IMAGES.find(tmpIgnoredZones).iterator();
+
+            its.hasNext();
+
+            DBObject o = its.next();
+            Type type = new TypeToken<List<Rectangle>>() {
+            }.getType();
+            List<Rectangle> ignoreZones = new Gson().fromJson(o.get("ignoreZones").toString(), type);
 
             // pull images linked to the provided IDs from DB
             GridFSDBFile gfsBaseFile = GFS_PHOTO.find(baseQuery).iterator().next();
@@ -103,6 +112,7 @@ public class ScreenshotProcessing {
         return new ProcessedScreenshots(screenshotsHaveBeenReviewed, idOfTheDiffImage);
     }
 
+    @SuppressWarnings("unused")
     private static ScreenshotDiffResponse getDifferences(BufferedImage toCompare, BufferedImage baseImage) {
         int w = toCompare.getWidth();
         int h = toCompare.getHeight();
@@ -127,6 +137,7 @@ public class ScreenshotProcessing {
         baseImage.getWidth();
         boolean diffFound = false;
         BufferedImage tempImage = deepCopy(toCompare);
+
         for (Rectangle zone : ignoreZones) {
             Graphics baseGraph = baseImage.createGraphics();
             baseGraph.setColor(Color.MAGENTA);
@@ -144,6 +155,11 @@ public class ScreenshotProcessing {
         int h = toCompare.getHeight();
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
+                for (Rectangle rect : ignoreZones) {
+                    if (rect.contains(i, j)) {
+                        continue;
+                    }
+                }
                 if (tempImage.getRGB(i, j) != baseImage.getRGB(i, j)) {
                     int rgb = tempImage.getRGB(i, j);
                     toCompare.setRGB(i, j, (rgb | 0x00FF0000));

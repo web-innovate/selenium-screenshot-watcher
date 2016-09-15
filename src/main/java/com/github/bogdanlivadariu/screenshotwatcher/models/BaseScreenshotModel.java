@@ -83,6 +83,7 @@ public class BaseScreenshotModel extends BasicDBObject {
         return getString(IMAGE_ID);
     }
 
+    @SuppressWarnings("serial")
     public List<Rectangle> getIgnoreZones() {
         Type type = new TypeToken<List<Rectangle>>() {
         }.getType();

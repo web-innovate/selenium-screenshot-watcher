@@ -6,6 +6,7 @@ import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.TMP_I
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -22,6 +23,8 @@ import org.glassfish.grizzly.http.util.Base64Utils;
 
 import com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshotModel;
 import com.github.bogdanlivadariu.screenshotwatcher.util.EndpointUtil;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.mongodb.util.JSON;
@@ -37,6 +40,7 @@ public class UploadScreenshot {
      * "imageData":"Base64Encoded string"
      * }
      */
+    @SuppressWarnings("serial")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response insertImageInDb(String jsonRequest, @Context Request request) throws IOException {
@@ -49,7 +53,10 @@ public class UploadScreenshot {
         String testName = json.get(BaseScreenshotModel.TEST_NAME).toString();
         String testBrowser = json.get(BaseScreenshotModel.TEST_BROWSER).toString();
         String description = json.get(BaseScreenshotModel.DESCRIPTION).toString();
-        List<Rectangle> re = (List<Rectangle>) json.get(BaseScreenshotModel.IGNORE_ZONES);
+
+        Type type = new TypeToken<List<Rectangle>>() {
+        }.getType();
+        List<Rectangle> re = new Gson().fromJson(json.get(BaseScreenshotModel.IGNORE_ZONES).toString(), type);
 
         File tmpFile = new File("tmpFile");
         FileUtils.writeByteArrayToFile(tmpFile, screenshotBytes);

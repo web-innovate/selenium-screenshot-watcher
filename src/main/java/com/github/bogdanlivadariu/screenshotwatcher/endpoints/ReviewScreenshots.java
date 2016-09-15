@@ -3,10 +3,8 @@ package com.github.bogdanlivadariu.screenshotwatcher.endpoints;
 import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.BASE_IMAGES;
 import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.GFS_DIFF_PHOTOS;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -56,7 +54,7 @@ public class ReviewScreenshots {
         EndpointUtil.printClientInfo(request);
 
         ProcessedScreenshots processedScreenshots =
-            ScreenshotProcessing.processScreenshots(baseScreenShotId, newScreenshotId, new ArrayList<Rectangle>());
+            ScreenshotProcessing.processScreenshots(baseScreenShotId, newScreenshotId);
 
         String imgDiffLocation = "";
         boolean perfectMatch = false;
