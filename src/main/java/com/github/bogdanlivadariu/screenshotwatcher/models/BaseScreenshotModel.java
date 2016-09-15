@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
 import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 
 /**
@@ -40,7 +40,7 @@ public class BaseScreenshotModel extends BasicDBObject {
         put(TEST_BROWSER, testBrowser);
         put(DESCRIPTION, description);
         put(IMAGE_ID, imageId);
-        put(IGNORE_ZONES, new Gson().toJson(IGNORE_LIST_RECTANGLE));
+        put(IGNORE_ZONES, GsonUtil.gson.toJson(IGNORE_LIST_RECTANGLE));
     }
 
     public BaseScreenshotModel(String testName, String testBrowser, String description, ObjectId imageId) {
@@ -87,6 +87,6 @@ public class BaseScreenshotModel extends BasicDBObject {
     public List<Rectangle> getIgnoreZones() {
         Type type = new TypeToken<List<Rectangle>>() {
         }.getType();
-        return new Gson().fromJson(getString(IGNORE_ZONES), type);
+        return GsonUtil.gson.fromJson(getString(IGNORE_ZONES), type);
     }
 }
