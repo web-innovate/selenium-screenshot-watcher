@@ -19,7 +19,6 @@ import com.github.bogdanlivadariu.screenshotwatcher.models.requests.CompareScree
 import com.github.bogdanlivadariu.screenshotwatcher.models.requests.UploadScreenshotRequest;
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.CompareScreenshotsResponse;
 import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
 
@@ -68,7 +67,7 @@ public class ScreenshotWatcher {
 
     public CompareScreenshotsResponse compare(BaseScreenshotModel objectForCompare) {
         CompareScreenshotRequest compareRequest = new CompareScreenshotRequest(objectForCompare);
-        return new Gson().fromJson(
+        return GsonUtil.gson.fromJson(
             sendPost(baseURL + "compare", compareRequest), CompareScreenshotsResponse.class);
     }
 

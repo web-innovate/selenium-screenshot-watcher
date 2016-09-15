@@ -8,9 +8,6 @@ import java.io.Reader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 public class JSONReader<T> {
 
     private static Logger logger = LogManager.getLogger(JSONReader.class);
@@ -32,16 +29,16 @@ public class JSONReader<T> {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.fileName);
         try (Reader reader = new InputStreamReader(inputStream)) {
             logger.info("Loaded file: " + this.fileName);
-            Gson gson = new GsonBuilder().create();
-            return gson.fromJson(reader, typeOfT);
+
+            return GsonUtil.gson.fromJson(reader, typeOfT);
 
         }
     }
 
     public T readJSONFromInputStream(InputStream inputStream) throws IOException {
         try (Reader reader = new InputStreamReader(inputStream)) {
-            Gson gson = new GsonBuilder().create();
-            return gson.fromJson(reader, typeOfT);
+
+            return GsonUtil.gson.fromJson(reader, typeOfT);
         }
     }
 }

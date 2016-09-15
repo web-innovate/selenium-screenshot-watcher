@@ -25,8 +25,8 @@ import com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors;
 import com.github.bogdanlivadariu.screenshotwatcher.models.ProcessedScreenshots;
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.ScreenshotDiffResponse;
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.ScreenshotProcessingResponse;
+import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
 import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -83,7 +83,7 @@ public class ScreenshotProcessing {
             DBObject o = its.next();
             Type type = new TypeToken<List<Rectangle>>() {
             }.getType();
-            List<Rectangle> ignoreZones = new Gson().fromJson(o.get("ignoreZones").toString(), type);
+            List<Rectangle> ignoreZones = GsonUtil.gson.fromJson(o.get("ignoreZones").toString(), type);
 
             // pull images linked to the provided IDs from DB
             GridFSDBFile gfsBaseFile = GFS_PHOTO.find(baseQuery).iterator().next();
