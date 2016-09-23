@@ -9,7 +9,6 @@ import static com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshot
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -27,12 +26,7 @@ import com.github.bogdanlivadariu.screenshotwatcher.models.requests.CompareScree
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.CompareScreenshotsResponse;
 import com.github.bogdanlivadariu.screenshotwatcher.models.response.ScreenshotProcessingResponse;
 import com.github.bogdanlivadariu.screenshotwatcher.util.EndpointUtil;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -45,17 +39,10 @@ public class CompareScreenshots {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response doCoolMagicInside(String jsonReq, @Context Request request) throws IOException {
         EndpointUtil.printClientInfo(request);
-        JsonDeserializer<ObjectId> objectIdDeserializer = new JsonDeserializer<ObjectId>() {
-            @Override
-            public ObjectId deserialize(JsonElement je, Type type, JsonDeserializationContext jdc)
-                throws JsonParseException {
-                return new ObjectId(je.getAsJsonObject().get("$oid").getAsString());
-            }
-        };
-        Gson gson = new GsonBuilder().registerTypeAdapter(ObjectId.class, objectIdDeserializer).create();
 
         boolean baseImageFound = false;
-        CompareScreenshotRequest itemToCompare = gson.fromJson(jsonReq, CompareScreenshotRequest.class);
+        CompareScreenshotRequest itemToCompare = GsonUtil.gson.fromJson(jsonReq, CompareScreenshotRequest.class);
+
         DBObject base = null;
         ObjectId baseImageObjectId = null;
         GridFSDBFile baseScreenshot = null;
@@ -97,7 +84,7 @@ public class CompareScreenshots {
             reviewLink =
                 Main.getBaseUri() + "review/" + baseScreenshot.getId().toString() + "/"
                     + newScreenshot.getId().toString();
-            processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile);
+            processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile, itemToCompare.ignoreZones);
             compareResponse =
                 new CompareScreenshotsResponse(processedResponse.getStatus(), reviewLink);
         } else {
@@ -106,6 +93,6 @@ public class CompareScreenshots {
             compareResponse = new CompareScreenshotsResponse(false, reviewLink);
         }
 
-        return Response.ok().entity(new Gson().toJson(compareResponse, CompareScreenshotsResponse.class)).build();
+        return Response.ok().entity(GsonUtil.gson.toJson(compareResponse, CompareScreenshotsResponse.class)).build();
     }
 }

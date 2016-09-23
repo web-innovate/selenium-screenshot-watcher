@@ -3,8 +3,11 @@ package com.github.bogdanlivadariu.screenshotwatcher.endpoints;
 import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.GFS_PHOTO;
 import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.TMP_IMAGES;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -20,6 +23,8 @@ import org.glassfish.grizzly.http.util.Base64Utils;
 
 import com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshotModel;
 import com.github.bogdanlivadariu.screenshotwatcher.util.EndpointUtil;
+import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
+import com.google.common.reflect.TypeToken;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.mongodb.util.JSON;
@@ -35,6 +40,7 @@ public class UploadScreenshot {
      * "imageData":"Base64Encoded string"
      * }
      */
+    @SuppressWarnings("serial")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response insertImageInDb(String jsonRequest, @Context Request request) throws IOException {
@@ -48,6 +54,10 @@ public class UploadScreenshot {
         String testBrowser = json.get(BaseScreenshotModel.TEST_BROWSER).toString();
         String description = json.get(BaseScreenshotModel.DESCRIPTION).toString();
 
+        Type type = new TypeToken<List<Rectangle>>() {
+        }.getType();
+        List<Rectangle> re = GsonUtil.gson.fromJson(json.get(BaseScreenshotModel.IGNORE_ZONES).toString(), type);
+
         File tmpFile = new File("tmpFile");
         FileUtils.writeByteArrayToFile(tmpFile, screenshotBytes);
         GridFSInputFile gfsFile = GFS_PHOTO.createFile(tmpFile);
@@ -56,7 +66,7 @@ public class UploadScreenshot {
         gfsFile.save();
         // after the file has been saved, get the id and add it into the table of base_images
         BaseScreenshotModel up = new BaseScreenshotModel(testName, testBrowser, description,
-            new ObjectId(gfsFile.getId().toString()));
+            new ObjectId(gfsFile.getId().toString()), re);
 
         TMP_IMAGES.save(up);
         tmpFile.delete();
