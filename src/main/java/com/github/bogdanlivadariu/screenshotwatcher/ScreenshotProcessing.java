@@ -133,13 +133,8 @@ public class ScreenshotProcessing {
 
     private static ScreenshotDiffResponse getDifferences(BufferedImage toCompare, BufferedImage baseImage,
         List<Rectangle> ignoreZones) {
-
-        toCompare.getWidth();
-        toCompare.getHeight();
-        baseImage.getWidth();
         boolean diffFound = false;
         BufferedImage tempImage = deepCopy(toCompare);
-        List<Point> ignorePoints = new ArrayList<>();
 
         for (Rectangle zone : ignoreZones) {
             // here we highlight with MAGENTA the zones that are going to be ignored
@@ -154,31 +149,26 @@ public class ScreenshotProcessing {
             Graphics toCompGraph = toCompare.createGraphics();
             toCompGraph.setColor(Color.MAGENTA);
             toCompGraph.drawRect(zone.x, zone.y, zone.width, zone.height);
-
-            // add all points that are contained by a rectangle into a list of ignorePoints
-            // this will prevent from iterating again over the ignoreZones when comparing pixels
-            // and will easy the check if a point is inside of the ignoreZones when pixels are going to get compared
-            for (int x = zone.x; x < zone.getWidth(); x++) {
-                for (int y = zone.y; y < zone.getHeight(); y++) {
-                    Point p = new Point(x, y);
-                    ignorePoints.add(p);
-                }
-            }
         }
+
         int w = toCompare.getWidth();
         int h = toCompare.getHeight();
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                // check to see if the current x,y are found inside the ignorePoints
-                if (ignorePoints.contains(new Point(i, j))) {
-                    continue;
+                // check to see if the current i,j are found inside the ignorePoints
+                for (Rectangle zone : ignoreZones) {
+                    if (zone.contains(new Point(i, j))) {
+                        continue;
+                    }
                 }
+
                 // check to see if pixex from base & image to compare are the same
                 if (tempImage.getRGB(i, j) != baseImage.getRGB(i, j)) {
                     // pixel found not be be the same, we apply a RED color filter to make things distinct
                     int rgb = tempImage.getRGB(i, j);
                     toCompare.setRGB(i, j, (rgb | 0x00FF0000));
                     diffFound = true;
+
                     /*
                      * if (((rgb & 0x00FF0000) >> 16) < 220) {
                      * toCompare.setRGB(i, j, (rgb | 0x00FF0000));
