@@ -86,11 +86,12 @@ public class CompareScreenshots {
                     + newScreenshot.getId().toString();
             processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile, itemToCompare.ignoreZones);
             compareResponse =
-                new CompareScreenshotsResponse(processedResponse.getStatus(), reviewLink);
+                new CompareScreenshotsResponse(processedResponse.getStatus(), reviewLink,
+                    processedResponse.getDiffPercentage());
         } else {
             reviewLink =
                 Main.getBaseUri() + "review-single/" + newScreenshot.getId().toString();
-            compareResponse = new CompareScreenshotsResponse(false, reviewLink);
+            compareResponse = new CompareScreenshotsResponse(false, reviewLink, -1);
         }
 
         return Response.ok().entity(GsonUtil.gson.toJson(compareResponse, CompareScreenshotsResponse.class)).build();
