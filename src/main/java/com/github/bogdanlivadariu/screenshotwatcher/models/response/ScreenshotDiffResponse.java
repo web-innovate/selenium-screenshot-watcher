@@ -8,9 +8,12 @@ public class ScreenshotDiffResponse {
 
     private BufferedImage bufferedImage;
 
-    public ScreenshotDiffResponse(boolean status, BufferedImage bufferedImage) {
+    private float diffPercentage;
+
+    public ScreenshotDiffResponse(boolean status, BufferedImage bufferedImage, float diffPercentage) {
         this.status = status;
         this.bufferedImage = bufferedImage;
+        this.diffPercentage = diffPercentage;
     }
 
     public boolean getStatus() {
@@ -20,4 +23,9 @@ public class ScreenshotDiffResponse {
     public BufferedImage getBufferedImage() {
         return bufferedImage;
     }
+
+    public float getDiffPercentage() {
+        return diffPercentage;
+    }
+
 }

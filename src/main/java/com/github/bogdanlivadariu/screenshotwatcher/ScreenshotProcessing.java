@@ -46,7 +46,7 @@ public class ScreenshotProcessing {
 
         // ScreenshotDiffResponse diffResponse = getDifferences(compare, bases);
         ImageIO.write(diffResponse.getBufferedImage(), "PNG", diffFile);
-        return new ScreenshotProcessingResponse(diffResponse.getStatus(), diffFile);
+        return new ScreenshotProcessingResponse(diffResponse.getStatus(), diffFile, diffResponse.getDiffPercentage());
     }
 
     @SuppressWarnings("serial")
@@ -135,6 +135,7 @@ public class ScreenshotProcessing {
         List<Rectangle> ignoreZones) {
         boolean diffFound = false;
         BufferedImage tempImage = deepCopy(toCompare);
+        int diffCount = 0;
 
         for (Rectangle zone : ignoreZones) {
             // here we highlight with MAGENTA the zones that are going to be ignored
@@ -151,10 +152,10 @@ public class ScreenshotProcessing {
             toCompGraph.drawRect(zone.x, zone.y, zone.width, zone.height);
         }
 
-        int w = toCompare.getWidth();
-        int h = toCompare.getHeight();
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
+        int width = toCompare.getWidth();
+        int height = toCompare.getHeight();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 // check to see if the current i,j are found inside the ignorePoints
                 for (Rectangle zone : ignoreZones) {
                     if (zone.contains(new Point(i, j))) {
@@ -168,6 +169,7 @@ public class ScreenshotProcessing {
                     int rgb = tempImage.getRGB(i, j);
                     toCompare.setRGB(i, j, (rgb | 0x00FF0000));
                     diffFound = true;
+                    diffCount++;
 
                     /*
                      * if (((rgb & 0x00FF0000) >> 16) < 220) {
@@ -183,7 +185,8 @@ public class ScreenshotProcessing {
                 }
             }
         }
-        return new ScreenshotDiffResponse(!diffFound, toCompare);
+        float diffPercentage = (float) (diffCount * 100) / (width * height);
+        return new ScreenshotDiffResponse(!diffFound, toCompare, diffPercentage);
     }
 
     private static BufferedImage deepCopy(BufferedImage bufferedImage) {

@@ -7,9 +7,12 @@ public class ScreenshotProcessingResponse {
 
     private File file;
 
-    public ScreenshotProcessingResponse(boolean status, File file) {
+    private float diffPercentage;
+
+    public ScreenshotProcessingResponse(boolean status, File file, float diffPercentage) {
         this.status = status;
         this.file = file;
+        this.diffPercentage = diffPercentage;
     }
 
     public boolean getStatus() {
@@ -18,5 +21,9 @@ public class ScreenshotProcessingResponse {
 
     public File getFile() {
         return file;
+    }
+
+    public float getDiffPercentage() {
+        return diffPercentage;
     }
 }

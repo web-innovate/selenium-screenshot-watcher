@@ -6,9 +6,12 @@ public class CompareScreenshotsResponse {
 
     private String reviewLink;
 
-    public CompareScreenshotsResponse(boolean compare, String reviewLink) {
+    private float diffPercentage;
+
+    public CompareScreenshotsResponse(boolean compare, String reviewLink, float diffPercentage) {
         this.sameImage = compare;
         this.reviewLink = reviewLink;
+        this.diffPercentage = diffPercentage;
     }
 
     public boolean isSameImage() {
@@ -17,5 +20,9 @@ public class CompareScreenshotsResponse {
 
     public String getReviewLink() {
         return reviewLink;
+    }
+
+    public float getDiffPercentage() {
+        return diffPercentage;
     }
 }
