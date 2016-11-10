@@ -6,3 +6,5 @@ base
 tmp
 .project
 app/
+.idea/
+selenium-screenshot-watcher.iml
