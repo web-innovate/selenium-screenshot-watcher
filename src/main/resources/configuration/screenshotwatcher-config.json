@@ -1,31 +1,31 @@
 {
-    "serversConfig": {
-        "default": {
-            "hostAddress": "http://localhost",
-            "portPreference": 9090,
-            "mongoDBHost": "ds039311.mongolab.com",
-            "mongoDBPort": 39311,
-            "mongoDBUserName": "test",
-            "mongoDBPassword": "test",
-            "mongoDB": "test_reports"
-        },
-        "heroku": {
-            "hostAddress": "http://0.0.0.0",
-            "portPreference": 8080,
-            "mongoDBHost": "ds039311.mongolab.com",
-            "mongoDBPort": 39311,
-            "mongoDBUserName": "test",
-            "mongoDBPassword": "test",
-            "mongoDB": "test_reports"
-        },
-        "stage-env": {
-            "hostAddress": "http://192.168.1.1",
-            "portPreference": 9191,
-            "mongoDBHost": "ds039311.mongolab.com",
-            "mongoDBPort": 39311,
-            "mongoDBUserName": "test",
-            "mongoDBPassword": "test",
-            "mongoDB": "test_reports"
-        }
+  "serversConfig": {
+    "default": {
+      "hostAddress": "http://localhost",
+      "portPreference": 9090,
+      "mongoDBHost": "ds039311.mongolab.com",
+      "mongoDBPort": 39311,
+      "mongoDBUserName": "test",
+      "mongoDBPassword": "test",
+      "mongoDB": "test_reports"
+    },
+    "heroku": {
+      "hostAddress": "http://0.0.0.0",
+      "portPreference": 8080,
+      "mongoDBHost": "ds039311.mongolab.com",
+      "mongoDBPort": 39311,
+      "mongoDBUserName": "test",
+      "mongoDBPassword": "test",
+      "mongoDB": "test_reports"
+    },
+    "stage-env": {
+      "hostAddress": "http://192.168.1.1",
+      "portPreference": 9191,
+      "mongoDBHost": "ds039311.mongolab.com",
+      "mongoDBPort": 39311,
+      "mongoDBUserName": "test",
+      "mongoDBPassword": "test",
+      "mongoDB": "test_reports"
     }
+  }
 }
