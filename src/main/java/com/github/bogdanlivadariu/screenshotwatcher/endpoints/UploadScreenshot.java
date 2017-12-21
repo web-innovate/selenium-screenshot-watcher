@@ -1,26 +1,5 @@
 package com.github.bogdanlivadariu.screenshotwatcher.endpoints;
 
-import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.GFS_PHOTO;
-import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.TMP_IMAGES;
-
-import java.awt.Rectangle;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.apache.commons.io.FileUtils;
-import org.bson.types.ObjectId;
-import org.glassfish.grizzly.http.server.Request;
-import org.glassfish.grizzly.http.util.Base64Utils;
-
 import com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshotModel;
 import com.github.bogdanlivadariu.screenshotwatcher.util.EndpointUtil;
 import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
@@ -28,6 +7,26 @@ import com.google.common.reflect.TypeToken;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.mongodb.util.JSON;
+import org.apache.commons.io.FileUtils;
+import org.bson.types.ObjectId;
+import org.glassfish.grizzly.http.server.Request;
+import org.glassfish.grizzly.http.util.Base64Utils;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.GFS_PHOTO;
+import static com.github.bogdanlivadariu.screenshotwatcher.db.DBConnectors.TMP_IMAGES;
 
 @Path("upload")
 public class UploadScreenshot {
@@ -56,7 +55,13 @@ public class UploadScreenshot {
 
         Type type = new TypeToken<List<Rectangle>>() {
         }.getType();
-        List<Rectangle> re = GsonUtil.gson.fromJson(json.get(BaseScreenshotModel.IGNORE_ZONES).toString(), type);
+
+        String ignoreZonesString = (String) json.get(BaseScreenshotModel.IGNORE_ZONES);
+        List<Rectangle> ignoreZones = new ArrayList<>();
+
+        if (ignoreZonesString != null) {
+            ignoreZones = GsonUtil.gson.fromJson(ignoreZonesString, type);
+        }
 
         File tmpFile = new File("tmpFile");
         FileUtils.writeByteArrayToFile(tmpFile, screenshotBytes);
@@ -66,7 +71,7 @@ public class UploadScreenshot {
         gfsFile.save();
         // after the file has been saved, get the id and add it into the table of base_images
         BaseScreenshotModel up = new BaseScreenshotModel(testName, testBrowser, description,
-            new ObjectId(gfsFile.getId().toString()), re);
+            new ObjectId(gfsFile.getId().toString()), ignoreZones);
 
         TMP_IMAGES.save(up);
         tmpFile.delete();

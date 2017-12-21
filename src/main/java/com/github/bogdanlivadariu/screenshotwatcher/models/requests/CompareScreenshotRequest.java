@@ -1,11 +1,11 @@
 package com.github.bogdanlivadariu.screenshotwatcher.models.requests;
 
-import java.awt.Rectangle;
-import java.util.List;
-
+import com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshotModel;
 import org.bson.types.ObjectId;
 
-import com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshotModel;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompareScreenshotRequest {
 
@@ -48,5 +48,9 @@ public class CompareScreenshotRequest {
 
     public ObjectId getImageId() {
         return imageId;
+    }
+
+    public List<Rectangle> getIgnoreZones() {
+        return ignoreZones == null ? new ArrayList<>() : ignoreZones;
     }
 }

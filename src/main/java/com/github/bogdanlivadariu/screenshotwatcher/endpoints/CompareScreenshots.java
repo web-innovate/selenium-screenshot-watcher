@@ -84,7 +84,7 @@ public class CompareScreenshots {
             reviewLink =
                 Main.getBaseUri() + "review/" + baseScreenshot.getId().toString() + "/"
                     + newScreenshot.getId().toString();
-            processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile, itemToCompare.ignoreZones);
+            processedResponse = ScreenshotProcessing.processScreenshots(baseFile, tmpFile, itemToCompare.getIgnoreZones());
             compareResponse =
                 new CompareScreenshotsResponse(processedResponse.getStatus(), reviewLink,
                     processedResponse.getDiffPercentage());

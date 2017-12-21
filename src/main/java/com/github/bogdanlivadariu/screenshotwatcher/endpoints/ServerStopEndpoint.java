@@ -18,7 +18,7 @@ import com.mongodb.util.JSON;
 public class ServerStopEndpoint {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(@Context Request request) throws InterruptedException {
+    public Response post(@Context Request request) {
         EndpointUtil.printClientInfo(request);
         if ("heroku".equalsIgnoreCase(EnvironmentUtil.getEnvironmentName())) {
             return Response.status(403)
