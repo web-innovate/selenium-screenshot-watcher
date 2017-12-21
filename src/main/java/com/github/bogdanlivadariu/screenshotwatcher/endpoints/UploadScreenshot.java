@@ -56,7 +56,7 @@ public class UploadScreenshot {
         Type type = new TypeToken<List<Rectangle>>() {
         }.getType();
 
-        String ignoreZonesString = (String) json.get(BaseScreenshotModel.IGNORE_ZONES);
+        String ignoreZonesString = ((Object) json.get(BaseScreenshotModel.IGNORE_ZONES)).toString();
         List<Rectangle> ignoreZones = new ArrayList<>();
 
         if (ignoreZonesString != null) {
