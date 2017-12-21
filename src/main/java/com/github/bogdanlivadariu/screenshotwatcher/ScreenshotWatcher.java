@@ -1,19 +1,5 @@
 package com.github.bogdanlivadariu.screenshotwatcher;
 
-import java.awt.Rectangle;
-import java.util.List;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.grizzly.http.util.Base64Utils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-
 import com.github.bogdanlivadariu.screenshotwatcher.models.BaseScreenshotModel;
 import com.github.bogdanlivadariu.screenshotwatcher.models.requests.CompareScreenshotRequest;
 import com.github.bogdanlivadariu.screenshotwatcher.models.requests.UploadScreenshotRequest;
@@ -21,6 +7,18 @@ import com.github.bogdanlivadariu.screenshotwatcher.models.response.CompareScree
 import com.github.bogdanlivadariu.screenshotwatcher.util.GsonUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
+import org.glassfish.grizzly.http.util.Base64Utils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import java.awt.*;
+import java.util.List;
 
 public class ScreenshotWatcher {
 
@@ -62,6 +60,13 @@ public class ScreenshotWatcher {
         String description) {
         UploadScreenshotRequest uploadRequest =
             new UploadScreenshotRequest(testName, testBrowser, description, base64EncodedImage);
+        return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
+    }
+
+    public BaseScreenshotModel blink(String base64EncodedImage, String testName, String testBrowser,
+        String description, List<Rectangle> ignoreZones) {
+        UploadScreenshotRequest uploadRequest =
+            new UploadScreenshotRequest(testName, testBrowser, description, base64EncodedImage, ignoreZones);
         return new BaseScreenshotModel((BasicDBObject) JSON.parse(sendPost(baseURL + "upload", uploadRequest)));
     }
 
