@@ -1,10 +1,14 @@
 package com.github.bogdanlivadariu.screenshotwatcher.models.config;
 
+import com.github.bogdanlivadariu.screenshotwatcher.util.EnvironmentUtil;
+
+import java.util.Objects;
+
 public class ScreenshotWatcherConfigurationModel {
 
     private String hostAddress;
 
-    private int portPreference;
+    private int port;
 
     private String mongoDBHost;
 
@@ -16,32 +20,46 @@ public class ScreenshotWatcherConfigurationModel {
 
     private String mongoDB;
 
+    private String publicUri;
+
     public String getHostAddress() {
-        return hostAddress;
+        return checkAndGet(EnvironmentUtil.getHostAddress(), hostAddress);
     }
 
-    public int getPortPreference() {
-        return portPreference;
+    private String checkAndGet(String actual, String defaultValue) {
+        try {
+            return actual == null ? defaultValue : actual;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public int getPort() {
+        return port;
     }
 
     public String getMongoDBHost() {
-        return mongoDBHost;
+        return checkAndGet(EnvironmentUtil.getMongoHost(), mongoDBHost);
     }
 
     public int getMongoDBPort() {
-        return mongoDBPort;
+        return Integer.parseInt(
+            Objects.requireNonNull(checkAndGet(EnvironmentUtil.getMongoPort(), String.valueOf(mongoDBPort))));
     }
 
     public String getMongoDBUserName() {
-        return mongoDBUserName;
+        return checkAndGet(EnvironmentUtil.getMongoUser(), mongoDBUserName);
     }
 
     public String getMongoDBPassword() {
-        return mongoDBPassword;
+        return checkAndGet(EnvironmentUtil.getMongoPassword(), mongoDBPassword);
     }
 
     public String getMongoDB() {
-        return mongoDB;
+        return checkAndGet(EnvironmentUtil.getMongoDbName(), mongoDB);
     }
 
+    public String getPublicUri() {
+        return checkAndGet(EnvironmentUtil.getPublicUri(), publicUri);
+    }
 }

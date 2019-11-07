@@ -18,4 +18,49 @@ public class EnvironmentUtil {
         }
         return environmentName;
     }
+
+    //     "hostAddress": "http://0.0.0.0",
+    //         "portPreference": 8080,
+    //         "mongoDBHost": "ds039311.mongolab.com",
+    //         "mongoDBPort": 39311,
+    //         "mongoDBUserName": "test",
+    //         "mongoDBPassword": "test",
+    //         "mongoDB": "test_reports"
+
+    public static String getHostAddress() {
+        return extractEnvProperty("hostAddress");
+    }
+
+    private static String extractEnvProperty(String envProperty) {
+        String val;
+        return (val = System.getProperty(envProperty)) != null ? val : null;
+    }
+
+    public static String getPort() {
+        return extractEnvProperty("port");
+    }
+
+    public static String getMongoHost() {
+        return extractEnvProperty("mongoHost");
+    }
+
+    public static String getMongoPort() {
+        return extractEnvProperty("mongoPort");
+    }
+
+    public static String getMongoUser() {
+        return extractEnvProperty("mongoUser");
+    }
+
+    public static String getMongoPassword() {
+        return extractEnvProperty("mongoPassword");
+    }
+
+    public static String getMongoDbName() {
+        return extractEnvProperty("mongoDbName");
+    }
+
+    public static String getPublicUri() {
+        return extractEnvProperty("publicUri");
+    }
 }
