@@ -48,6 +48,11 @@ public class DBConnectors {
         } catch (Exception e) {
             logger.info("DB connection was not established");
         }
+
+        if (client != null) {
+            logger.info("Connected to mongo instance");
+        }
+
         return client;
     }
 }

@@ -4,7 +4,7 @@
   <groupId>com.github.bogdanlivadariu</groupId>
   <artifactId>selenium-screenshot-watcher</artifactId>
   <name>Selenium screenshot watcher</name>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <build>
     <plugins>
       <plugin>
@@ -21,7 +21,6 @@
                 <transformer>
                   <manifestEntries>
                     <Main-Class>com.github.bogdanlivadariu.screenshotwatcher.Main</Main-Class>
-                    <Build-Number>123</Build-Number>
                   </manifestEntries>
                 </transformer>
                 <transformer />
