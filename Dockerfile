@@ -22,7 +22,7 @@ ENV MONGO_PASSWORD=test
 ENV MONGO_DB_NAME=test
 
 
-COPY --from=build /usr/src/app/target/selenium-screenshot-watcher-1.0.2.jar ./app.jar
+COPY --from=build /usr/src/app/target/selenium-screenshot-watcher-1.0.3.jar ./app.jar
 COPY --from=build /usr/src/app/docker-start.sh ./start.sh
 
 EXPOSE 80
