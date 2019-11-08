@@ -6,6 +6,7 @@ java \
   -Dport="${PORT}" \
   -DmongoHost="${MONGO_HOST}" \
   -DmongoPort="${MONGO_PORT}" \
+  -DmongoAuthDB="${MONGO_AUTH_DB}" \
   -DmongoUser="${MONGO_USER}" \
   -DmongoPassword="${MONGO_PASSWORD}" \
   -DmongoDbName="${MONGO_DB_NAME}" \

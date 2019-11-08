@@ -17,7 +17,7 @@ public class DBConnectors {
     private final static MongoCredential CREDENTIALS = MongoCredential
         .createCredential(
             CONFIG.getMongoDBUserName(),
-            CONFIG.getMongoDB(),
+            CONFIG.getMongoDBAuth(),
             CONFIG.getMongoDBPassword().toCharArray());
 
     private static Logger logger = LogManager.getLogger(DBConnectors.class);

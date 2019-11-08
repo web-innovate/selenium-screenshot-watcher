@@ -14,6 +14,8 @@ public class ScreenshotWatcherConfigurationModel {
 
     private int mongoDBPort;
 
+    private String mongoDBAuth;
+
     private String mongoDBUserName;
 
     private String mongoDBPassword;
@@ -45,6 +47,10 @@ public class ScreenshotWatcherConfigurationModel {
     public int getMongoDBPort() {
         return Integer.parseInt(
             Objects.requireNonNull(checkAndGet(EnvironmentUtil.getMongoPort(), String.valueOf(mongoDBPort))));
+    }
+
+    public String getMongoDBAuth() {
+        return checkAndGet(EnvironmentUtil.getMongoDbAuth(), mongoDBAuth);
     }
 
     public String getMongoDBUserName() {

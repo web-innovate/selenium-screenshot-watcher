@@ -48,6 +48,10 @@ public class EnvironmentUtil {
         return extractEnvProperty("mongoPort");
     }
 
+    public static String getMongoDbAuth() {
+        return extractEnvProperty("mongoAuthDB");
+    }
+
     public static String getMongoUser() {
         return extractEnvProperty("mongoUser");
     }
@@ -63,4 +67,5 @@ public class EnvironmentUtil {
     public static String getPublicUri() {
         return extractEnvProperty("publicUri");
     }
+
 }
