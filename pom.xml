@@ -23,11 +23,11 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!--    <dependency>-->
-        <!--      <groupId>com.getsentry.raven</groupId>-->
-        <!--      <artifactId>raven-log4j2</artifactId>-->
-        <!--      <version>7.8.0</version>-->
-        <!--    </dependency>-->
+            <dependency>
+              <groupId>com.getsentry.raven</groupId>
+              <artifactId>raven-log4j2</artifactId>
+              <version>7.8.0</version>
+            </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

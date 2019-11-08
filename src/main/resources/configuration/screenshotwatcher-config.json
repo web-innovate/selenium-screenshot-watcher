@@ -29,6 +29,16 @@
       "mongoDBUserName": "test",
       "mongoDBPassword": "test",
       "mongoDB": "test_reports"
+    },
+    "test": {
+      "hostAddress": "http://127.0.0.1",
+      "publicUri": "http://127.0.0.1/",
+      "port": 9090,
+      "mongoDBHost": "127.0.0.1",
+      "mongoDBPort": 27017,
+      "mongoDBUserName": "test",
+      "mongoDBPassword": "test",
+      "mongoDB": "test"
     }
   }
 }

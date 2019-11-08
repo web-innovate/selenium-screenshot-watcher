@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN mvn -B clean install -Denv=default
+RUN mvn -B clean install -Denv=test
 
 FROM anapsix/alpine-java:8u202b08_jdk as release
 
@@ -25,5 +25,5 @@ COPY --from=build /usr/src/app/target/selenium-screenshot-watcher-1.0.1.jar ./ap
 COPY --from=build /usr/src/app/docker-start.sh ./start.sh
 
 EXPOSE 80
-CMD ["./start.sh"]
 
+CMD ["./start.sh"]
